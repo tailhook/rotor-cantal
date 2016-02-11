@@ -1,0 +1,24 @@
+[package]
+name = "rotor-cantal"
+description = """
+    The cantal client library (on top of rotor main loop)
+"""
+license = "MIT/Apache-2.0"
+readme = "README.rst"
+keywords = ["mio", "cantal", "rotor", "metrics"]
+homepage = "http://github.com/tailhook/rotor-cantal"
+documentation = "http://tailhook.github.io/rotor-cantal"
+version = "0.1.0"
+authors = ["paul@colomiets.name"]
+
+[dependencies]
+rotor = "0.5.0"
+rotor-http = "0.5.0"
+argparse = "0.2.1"
+
+[lib]
+name = "rotor_cantal"
+
+[[bin]]
+name = "cantal-cli"
+path = "src/bin/main.rs"
