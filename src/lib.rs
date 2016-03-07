@@ -1,0 +1,37 @@
+//! The experimental API to [cantal] monitoring service
+//!
+//! The cantal doesn't have stable API yet, so anything here may change
+//!
+//! [cantal]: http://cantal.readthedocs.org
+
+extern crate time;
+extern crate rotor;
+extern crate rotor_http;
+extern crate rotor_stream;
+extern crate rustc_serialize;
+#[macro_use] extern crate log;
+
+mod peers;
+mod connection;
+mod generator;
+mod datasets;
+mod state;
+mod schedule;
+
+use std::sync::{Arc, Mutex};
+
+use rotor::mio::tcp::TcpStream;
+use rotor_stream::Persistent;
+
+use generator::Generator;
+use state::State;
+
+/// A state machine object, just add in to the loop
+pub type Fsm<C> = rotor_http::client::Persistent<Generator<C>, TcpStream>;
+
+#[derive(Clone, Debug)]
+pub struct Schedule(Arc<Mutex<State>>);
+
+pub use peers::{PeerInfo, PeersState};
+
+pub use connection::{connect_localhost, connect_addr};
