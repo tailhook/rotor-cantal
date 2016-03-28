@@ -13,8 +13,7 @@ authors = ["paul@colomiets.name"]
 
 [dependencies]
 rotor = "0.6.2"
-rotor-http = { git="git://github.com/tailhook/rotor-http", rev="f443bfa" }
-rotor-stream = "0.5.1"
+rotor-http = "0.7.0"
 rotor-tools = "0.3.1"
 argparse = "0.2.1"
 time = "0.1.31"

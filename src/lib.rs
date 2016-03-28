@@ -7,7 +7,6 @@
 extern crate time;
 extern crate rotor;
 extern crate rotor_http;
-extern crate rotor_stream;
 extern crate rustc_serialize;
 #[macro_use] extern crate log;
 
@@ -21,7 +20,6 @@ mod schedule;
 use std::sync::{Arc, Mutex};
 
 use rotor::mio::tcp::TcpStream;
-use rotor_stream::Persistent;
 
 use generator::Generator;
 use state::State;

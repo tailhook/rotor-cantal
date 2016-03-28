@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 
 use rotor::{Scope, Time};
 use rotor_http::client::{Client, Request, Head, RecvMode, Requester};
-use rotor_http::client::{Connection, Task};
+use rotor_http::client::{Connection, Task, ProtocolError};
 
 use datasets::{Dataset};
 use state::{State, PrivateState};
@@ -49,6 +49,11 @@ impl<C> Client for Generator<C> {
     {
         self.next_request(scope)
     }
+    fn connection_error(self, reason: &ProtocolError,
+        _scope: &mut Scope<<Self::Requester as Requester>::Context>)
+    {
+        info!("Error fetching data: {}", reason);
+    }
 
     fn wakeup(self,
         connection: &Connection,
@@ -76,7 +81,10 @@ impl<C> Client for Generator<C> {
 
 impl<C> Requester for RequestWrapper<C> {
     type Context = C;
-    fn prepare_request(self, req: &mut Request) -> Option<Self> {
+    fn prepare_request(self, req: &mut Request,
+        _scope: &mut Scope<Self::Context>)
+        -> Option<Self>
+    {
         self.0.write_request(req);
         Some(self)
     }

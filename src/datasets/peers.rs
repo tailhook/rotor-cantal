@@ -5,7 +5,7 @@ use rustc_serialize::json::decode;
 
 use rotor::Time;
 use rotor_http::client::Request;
-use rotor_http::Version::Http11;
+use rotor_http::client::Version::Http11;
 
 use datasets::Dataset;
 use state::{State, PrivateState};
