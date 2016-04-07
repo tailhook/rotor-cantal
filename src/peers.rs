@@ -10,6 +10,7 @@ use time::Timespec;
 pub struct PeerInfo {
     pub id: String,
     pub hostname: String,
+    pub name: String,
     pub primary_addr: Option<String>,
     pub addresses: Vec<String>,
     /// Known to this host, unixtime in milliseconds
