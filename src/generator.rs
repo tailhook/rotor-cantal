@@ -94,7 +94,7 @@ impl<C> Requester for RequestWrapper<C> {
     {
         // TODO(tailhook) check status code
         if head.code == 200 {
-            Some((self, RecvMode::Buffered(1_048_576),
+            Some((self, RecvMode::Buffered(10_485_760),
                 scope.now() + Duration::new(10, 0)))
         } else {
             None

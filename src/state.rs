@@ -4,8 +4,9 @@ use std::time::Duration;
 
 use rotor::{Notifier, Time};
 
-use datasets::{Dataset, Peers};
+use datasets::{self, Dataset};
 use peers::PeersState;
+use query::RemoteQuery;
 
 
 
@@ -13,8 +14,11 @@ use peers::PeersState;
 pub struct State {
     pub min_retry: Duration,
     pub peers_interval: Option<Duration>,
+    pub remote_query_task: Option<(Duration, Arc<Box<[u8]>>)>,
     pub peers: Option<Arc<PeersState>>,
+    pub remote_query: Option<Arc<RemoteQuery>>,
     peers_attempt: Option<Time>,
+    remote_query_attempt: Option<Time>,
     scheduler_notifier: Notifier,
     listeners: Vec<Notifier>,
 }
@@ -34,6 +38,9 @@ impl PrivateState for State {
             peers_interval: None,
             peers_attempt: None,
             peers: None,
+            remote_query_task: None,
+            remote_query_attempt: None,
+            remote_query: None,
             scheduler_notifier: notifier,
             listeners: Vec::new(),
         }
@@ -47,6 +54,8 @@ impl PrivateState for State {
         }
     }
     fn next_request(&mut self, now: Time) -> Result<Box<Dataset>, Time> {
+        // TODO(tailhook) select minimal time rather than prioritizing
+        // the peers over the query
         if let Some(ivl) = self.peers_interval {
             let mut next;
             if let Some(last) = self.peers.as_ref().map(|x| x.received) {
@@ -59,7 +68,23 @@ impl PrivateState for State {
             }
             if next <= now {
                 self.peers_attempt = Some(now);
-                Ok(Box::new(Peers))
+                Ok(Box::new(datasets::Peers))
+            } else {
+                Err(next)
+            }
+        } else if let Some((ivl, ref data)) = self.remote_query_task {
+            let mut next;
+            if let Some(last) = self.remote_query.as_ref().map(|x| x.received) {
+                next = last + ivl;
+            } else {
+                next = now;
+            }
+            if let Some(attempt) = self.remote_query_attempt {
+                next = max(attempt + self.min_retry, next);
+            }
+            if next <= now {
+                self.remote_query_attempt = Some(now);
+                Ok(Box::new(datasets::RemoteQuery(data.clone())))
             } else {
                 Err(next)
             }

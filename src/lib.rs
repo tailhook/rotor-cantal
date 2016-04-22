@@ -6,9 +6,11 @@
 
 extern crate time;
 extern crate rotor;
+extern crate cbor;
 extern crate rotor_http;
 extern crate rustc_serialize;
 #[macro_use] extern crate log;
+#[macro_use] extern crate probor;
 
 mod peers;
 mod connection;
@@ -16,6 +18,8 @@ mod generator;
 mod datasets;
 mod state;
 mod schedule;
+mod query;
+mod key;
 
 use std::sync::{Arc, Mutex};
 
@@ -31,5 +35,6 @@ pub type Fsm<C> = rotor_http::client::Persistent<Generator<C>, TcpStream>;
 pub struct Schedule(Arc<Mutex<State>>);
 
 pub use peers::{PeerInfo, PeersState};
-
+pub use key::Key;
+pub use query::*;
 pub use connection::{connect_localhost, connect_addr};

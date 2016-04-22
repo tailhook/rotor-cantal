@@ -1,8 +1,10 @@
 mod peers;
+mod remote_query;
 
 use std::fmt::Debug;
 use state::State;
 pub use self::peers::Peers;
+pub use self::remote_query::RemoteQuery;
 
 use rotor::Time;
 use rotor_http::client::Request;

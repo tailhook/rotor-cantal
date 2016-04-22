@@ -2,6 +2,7 @@
 extern crate rotor_cantal;
 extern crate rotor_tools;
 extern crate argparse;
+extern crate rustc_serialize;
 extern crate env_logger;
 
 use std::time::Duration;
@@ -10,6 +11,7 @@ use rotor::{Machine, EventSet, Scope, Response};
 use rotor::void::{unreachable, Void};
 use rotor_cantal::{Schedule, connect_localhost};
 use rotor_tools::loop_ext::LoopExt;
+use rustc_serialize::json::Json;
 use argparse::{ArgumentParser, StoreTrue};
 
 pub struct Printer(bool);
@@ -42,7 +44,7 @@ impl Machine for Printer {
     }
     fn wakeup(self, scope: &mut Scope<Context>) -> Response<Self, Self::Seed>
     {
-        println!("{:#?}", scope.cantal.get_peers());
+        println!("{:#?}", scope.cantal.get_remote_query());
         if !self.0 {
             scope.shutdown_loop();
         }
@@ -69,7 +71,38 @@ fn main() {
     let schedule = creator.add_and_fetch(Fsm::Cantal, |scope| {
         connect_localhost(scope)
     }).unwrap();
-    schedule.set_peers_interval(Duration::new(10, 0));
+    schedule.set_remote_query_json(
+        &Json::from_str(r#"{
+          "rules": {
+            "q1": {
+              "series": {
+                "source": "Fine",
+                "condition": [
+                  "And",
+                  [
+                    "RegexLike",
+                    "metric",
+                    "^user_time|system_time$"
+                  ],
+                  [
+                    "Has",
+                    "cgroup"
+                  ]
+                ]
+              },
+              "extract": [
+                "HistoryByNum",
+                150
+              ],
+              "functions": [
+                [
+                  "NonNegativeDerivative"
+                ]
+              ]
+            }
+          }
+        }"#).unwrap(),
+        Duration::new(10, 0));
     let mut loop_inst = creator.instantiate(Context {
         cantal: schedule.clone(),
     });
