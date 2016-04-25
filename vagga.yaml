@@ -10,6 +10,17 @@ commands:
     container: ubuntu
     run: [cargo]
 
+  example-peers: !Command
+    description: Run run "peers" example
+    container: ubuntu
+    run: [cargo, run, --example, peers]
+
+  example-query: !Command
+    description: Run run "query" example
+    container: ubuntu
+    run: [cargo, run, --example, query]
+
+
 containers:
 
   ubuntu:
