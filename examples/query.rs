@@ -78,16 +78,23 @@ fn main() {
               "series": {
                 "source": "Fine",
                 "condition": [
-                  "And",
-                  [
-                    "RegexLike",
-                    "metric",
-                    "^user_time|system_time$"
-                  ],
-                  [
-                    "Has",
-                    "cgroup"
-                  ]
+                  "RegexLike",
+                  "metric",
+                  "^memory\\."
+                ]
+              },
+              "extract": [
+                "Tip"
+              ],
+              "functions": []
+            },
+            "q2": {
+              "series": {
+                "source": "Fine",
+                "condition": [
+                  "RegexLike",
+                  "metric",
+                  "^cpu\\."
                 ]
               },
               "extract": [
@@ -97,6 +104,12 @@ fn main() {
               "functions": [
                 [
                   "NonNegativeDerivative"
+                ],
+                [
+                  "SumBy",
+                  "metric",
+                  "Ignore",
+                  true
                 ]
               ]
             }

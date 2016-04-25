@@ -97,6 +97,6 @@ probor_enum_encoder_decoder!(Chunk {
 pub struct RemoteQuery {
     pub timestamp: Instant,
     pub received: Time,
-    pub items: HashMap<String, Dataset>,
+    pub items: HashMap<String, HashMap<String, Dataset>>,
 }
 

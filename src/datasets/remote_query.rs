@@ -29,7 +29,7 @@ impl Dataset for RemoteQuery {
         let parsed = decode(&mut dec)
             .map_err(|e| error!("Error parsing /query_by_host.cbor: {}", e));
         match parsed {
-            Ok::<HashMap<String, ::Dataset>,()>(x) => {
+            Ok::<HashMap<String, HashMap<String, ::Dataset>>,()>(x) => {
                 state.remote_query = Some(Arc::new(::RemoteQuery {
                     received: tm,
                     timestamp: Instant::now(),
