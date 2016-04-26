@@ -1,4 +1,4 @@
-use std::cmp::max;
+use std::cmp::{max, min};
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -56,6 +56,7 @@ impl PrivateState for State {
     fn next_request(&mut self, now: Time) -> Result<Box<Dataset>, Time> {
         // TODO(tailhook) select minimal time rather than prioritizing
         // the peers over the query
+        let mut sleep = now + Duration::new(120, 0);
         if let Some(ivl) = self.peers_interval {
             let mut next;
             if let Some(last) = self.peers.as_ref().map(|x| x.received) {
@@ -68,11 +69,12 @@ impl PrivateState for State {
             }
             if next <= now {
                 self.peers_attempt = Some(now);
-                Ok(Box::new(datasets::Peers))
+                return Ok(Box::new(datasets::Peers));
             } else {
-                Err(next)
+                sleep = min(next, sleep);
             }
-        } else if let Some((ivl, ref data)) = self.remote_query_task {
+        }
+        if let Some((ivl, ref data)) = self.remote_query_task {
             let mut next;
             if let Some(last) = self.remote_query.as_ref().map(|x| x.received) {
                 next = last + ivl;
@@ -84,14 +86,12 @@ impl PrivateState for State {
             }
             if next <= now {
                 self.remote_query_attempt = Some(now);
-                Ok(Box::new(datasets::RemoteQuery(data.clone())))
+                return Ok(Box::new(datasets::RemoteQuery(data.clone())));
             } else {
-                Err(next)
+                sleep = min(next, sleep);
             }
-        } else {
-            // TODO(tailhook) this breaks abstractions a little bit
-            Err(now + Duration::new(120, 0))
         }
+        return Err(sleep)
     }
     fn changed(&self) {
         self.scheduler_notifier.wakeup().expect("wakeup state machine")
