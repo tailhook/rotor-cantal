@@ -1,3 +1,6 @@
+use cbor::{Decoder, Config};
+use std::io::Cursor;
+
 ///
 /// This contains CBOR-encoded key-value pairs
 #[derive(Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -6,6 +9,24 @@ pub struct Key(Option<Box<[u8]>>);
 impl Key {
     pub fn as_bytes<'x>(&'x self) -> &'x [u8] {
         self.0.as_ref().map(|x| &x[..]).unwrap_or(b"")
+    }
+    /// This method has separate key and value visitor because of borrowing
+    /// rules
+    ///
+    /// Keys are visited in sorted order, and every key and every value
+    /// is visited in sequence (key1, value1, key2, value2...)
+    pub fn visit<K, V>(&self, mut key_visitor: K, mut value_visitor: V)
+        where K: FnMut(&str), V: FnMut(&str)
+    {
+        if let Some(ref x) = self.0 {
+            let mut d = Decoder::new(Config::default(), Cursor::new(&x[..]));
+            let num = d.object().unwrap();
+            for _ in 0..num {
+                // TODO(tailhook) other types may work in future
+                key_visitor(d.text_borrow().unwrap());
+                value_visitor(d.text_borrow().unwrap());
+            }
+        }
     }
 }
 
