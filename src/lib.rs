@@ -35,6 +35,6 @@ pub type Fsm<C> = rotor_http::client::Persistent<Generator<C>, TcpStream>;
 pub struct Schedule(Arc<Mutex<State>>);
 
 pub use peers::{PeerInfo, PeersState};
-pub use key::Key;
+pub use key::{Key, KeyVisitor};
 pub use query::*;
 pub use connection::{connect_localhost, connect_addr};

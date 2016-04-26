@@ -6,6 +6,13 @@ use std::io::Cursor;
 #[derive(Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Key(Option<Box<[u8]>>);
 
+
+/// A type passed to by `Key::visit`
+pub enum KeyVisitor<'x> {
+    Key(&'x str),
+    Value(&'x str),
+}
+
 impl Key {
     pub fn as_bytes<'x>(&'x self) -> &'x [u8] {
         self.0.as_ref().map(|x| &x[..]).unwrap_or(b"")
@@ -15,16 +22,16 @@ impl Key {
     ///
     /// Keys are visited in sorted order, and every key and every value
     /// is visited in sequence (key1, value1, key2, value2...)
-    pub fn visit<K, V>(&self, mut key_visitor: K, mut value_visitor: V)
-        where K: FnMut(&str), V: FnMut(&str)
+    pub fn visit<'x, K>(&self, mut visitor: K)
+        where K: FnMut(KeyVisitor)
     {
         if let Some(ref x) = self.0 {
             let mut d = Decoder::new(Config::default(), Cursor::new(&x[..]));
             let num = d.object().unwrap();
             for _ in 0..num {
                 // TODO(tailhook) other types may work in future
-                key_visitor(d.text_borrow().unwrap());
-                value_visitor(d.text_borrow().unwrap());
+                visitor(KeyVisitor::Key(d.text_borrow().unwrap()));
+                visitor(KeyVisitor::Value(d.text_borrow().unwrap()));
             }
         }
     }
@@ -109,5 +116,31 @@ mod std_trait {
             // Unfortunately Box<[u8]> doesn't support Clone
             Key(self.0.as_ref().map(|x| x.to_vec().into_boxed_slice()))
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::{Key, KeyVisitor};
+
+    #[test]
+    fn test_visitor() {
+        let mut x = String::new();
+        let key = Key(Some(vec![
+            0xa2, 0x61, b'a', 0x61, b'b', 0x61, b'c', 0x61, b'd',
+            ].into_boxed_slice()));
+        key.visit(|item| {
+            match item {
+                KeyVisitor::Key(k) => {
+                    x.push_str(k);
+                    x.push(':');
+                }
+                KeyVisitor::Value(v) => {
+                    x.push_str(v);
+                    x.push(',');
+                }
+            }
+        });
+        assert_eq!(&x[..], "a:b,c:d,");
     }
 }
