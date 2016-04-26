@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["KeyVisitor","A type passed to by `Key::visit`"]],"struct":[["Key",""]]});

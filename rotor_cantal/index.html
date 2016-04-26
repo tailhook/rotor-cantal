@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `rotor_cantal` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, rotor_cantal">
+
+    <title>rotor_cantal - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'rotor_cantal', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>rotor_cantal</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-0' class='srclink' href='../src/rotor_cantal/src/lib.rs.html#1-40' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>The experimental API to <a href="http://cantal.readthedocs.org">cantal</a> monitoring service</p>
+
+<p>The cantal doesn&#39;t have stable API yet, so anything here may change</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Key.html'
+                               title='rotor_cantal::Key'>Key</a></td>
+                        <td class='docblock short'>
+                             <p>This contains CBOR-encoded key-value pairs</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.PeerInfo.html'
+                               title='rotor_cantal::PeerInfo'>PeerInfo</a></td>
+                        <td class='docblock short'>
+                             <p>Info about the peer</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.PeersState.html'
+                               title='rotor_cantal::PeersState'>PeersState</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.RemoteQuery.html'
+                               title='rotor_cantal::RemoteQuery'>RemoteQuery</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Schedule.html'
+                               title='rotor_cantal::Schedule'>Schedule</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.Chunk.html'
+                               title='rotor_cantal::Chunk'>Chunk</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.Conflict.html'
+                               title='rotor_cantal::Conflict'>Conflict</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.Dataset.html'
+                               title='rotor_cantal::Dataset'>Dataset</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.KeyVisitor.html'
+                               title='rotor_cantal::KeyVisitor'>KeyVisitor</a></td>
+                        <td class='docblock short'>
+                             <p>A type passed to by <code>Key::visit</code></p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.LevelType.html'
+                               title='rotor_cantal::LevelType'>LevelType</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.Type.html'
+                               title='rotor_cantal::Type'>Type</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.Value.html'
+                               title='rotor_cantal::Value'>Value</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.connect_addr.html'
+                               title='rotor_cantal::connect_addr'>connect_addr</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.connect_localhost.html'
+                               title='rotor_cantal::connect_localhost'>connect_localhost</a></td>
+                        <td class='docblock short'>
+                             <p>Usually cantal should be on a localhost</p>
+                        </td>
+                    </tr>
+                </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='type' href='type.Fsm.html'
+                               title='rotor_cantal::Fsm'>Fsm</a></td>
+                        <td class='docblock short'>
+                             <p>A state machine object, just add in to the loop</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='type' href='type.TimeSlice.html'
+                               title='rotor_cantal::TimeSlice'>TimeSlice</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='type' href='type.TimeStamp.html'
+                               title='rotor_cantal::TimeStamp'>TimeStamp</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "rotor_cantal";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

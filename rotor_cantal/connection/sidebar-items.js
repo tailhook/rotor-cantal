@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["connect_addr",""],["connect_localhost","Usually cantal should be on a localhost"]]});

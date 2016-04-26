@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["decode","Decodes and object and asserts that it's not null"]],"trait":[["Decodable",""],["Decode",""],["Encodable",""],["Input",""],["Output",""]]});
